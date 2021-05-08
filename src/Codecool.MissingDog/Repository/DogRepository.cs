@@ -19,6 +19,9 @@ namespace Codecool.MissingDog.Repository
         public DogRepository(DataSource data)
         {
             _data = data;
+
+            
+
         }
 
         /// <summary>
@@ -27,7 +30,13 @@ namespace Codecool.MissingDog.Repository
         /// <returns> IEnumerable of all Dogs instances and nulls. </returns>
         public IEnumerable<Dog> GetAllDogs()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
+            /*
+            Implement all methods in the DogRepository class.
+            The GetAllDogs() method returns an IEnumerable<Dog> of all Dog instances 
+            (including null references) from provided data from DataSource class.
+            */
+            return _data.Dogs;
         }
 
         /// <summary>
@@ -37,37 +46,83 @@ namespace Codecool.MissingDog.Repository
         /// <returns> Dog instance or null. </returns>
         public Dog GetDogById(int id)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
+            /*
+              The GetDogById() method returns a 
+             * specific Dog instance with given Id, if exists. If doesn't, returns null*/
+            //Dog found = null;
+            /*
+            foreach (Dog dog in _data.Dogs)
+            {
+                //if ((dog != null) && (dog.Id == id))
+                if(dog ?.Id == id)// równoznaczne z powy¿sz¹ linijk¹ 
+                {
+                    found = dog;
+                }
+            }
+            */
+            //return found;
+            return _data.Dogs.FirstOrDefault<Dog>(dog => dog?.Id == id);
+
         }
 
-        /// <summary>
-        ///     Counts all dogs that are assigned to an owner of a dog with given Id.
-        /// </summary>
-        /// <param name="dogId">dogId</param>
-        /// <returns> Integer, representing Dogs count. </returns>
-        public int GetCountOfDogsForTheOwnerOfDogWithId(int dogId)
-        {
-            throw new NotImplementedException();
-        }
+/// <summary>
+///     Counts all dogs that are assigned to an owner of a dog with given Id.
+/// </summary>
+/// <param name="dogId">dogId</param>
+/// <returns> Integer, representing Dogs count. </returns>
+public int GetCountOfDogsForTheOwnerOfDogWithId(int dogId)
+{
+            //throw new NotImplementedException();
+            /*
+            The GetCountOfDogsForTheOwnerOfDogWithId() method returns
+            the count of Dog instances which are assigned to an Owner of a Dog with a given Id.*/
 
-        /// <summary>
-        ///     Gets phone number of the dog owner with the given Id.
-        /// </summary>
-        /// <param name="dogId">dogId</param>
-        /// <returns> String, representing phone number. </returns>
-        public string GetOwnerPhoneNoByDogId(int dogId)
-        {
-            throw new NotImplementedException();
-        }
+            //return _data.Owners[0].Dogs[0].Id
+            Dog dog = _data.Dogs.FirstOrDefault<Dog>(dog => dog?.Id == dogId);
+            return dog?.Owner?.Dogs.Count(d => d!=null) ?? 0;
 
-        /// <summary>
-        ///     Gets all dogs with a given sociability.
-        /// </summary>
-        /// <param name="isSociable">isSociable</param>
-        /// <returns> IEnumerable of Dogs instances. </returns>
-        public IEnumerable<Dog> GetDogsBySociability(bool isSociable)
-        {
-            throw new NotImplementedException();
-        }
-    }
+}
+
+/// <summary>
+///     Gets phone number of the dog owner with the given Id.
+/// </summary>
+/// <param name="dogId">dogId</param>
+/// <returns> String, representing phone number. </returns>
+public string GetOwnerPhoneNoByDogId(int dogId)
+{
+            //throw new NotImplementedException();
+            /*
+             * The GetOwnerPhoneNoByDogId() method returns PhoneNumber
+             * of the Dog instance Owner with a given Id, if exists. 
+             * If doesn't, returns a string "Missing data".
+             */
+
+            Dog dog = _data.Dogs.Where<Dog>(D => D?.Id == dogId).FirstOrDefault();
+
+            return dog?.Owner?.PhoneNumber ?? "Missing data";
+
+
+
+
+
+}
+
+/// <summary>
+///     Gets all dogs with a given sociability.
+/// </summary>
+/// <param name="isSociable">isSociable</param>
+/// <returns> IEnumerable of Dogs instances. </returns>
+public IEnumerable<Dog> GetDogsBySociability(bool isSociable)
+{
+            /*throw new NotImplementedException();
+            The GetDogsBySociability() method returns an IEnumerable<Dog> 
+            of all Dog instances with a given Sociability.
+            */
+
+            return _data?.Dogs?.Where(S => S?.IsSociable == isSociable);
+
+
+}
+}
 }
